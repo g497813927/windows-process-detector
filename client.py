@@ -19,6 +19,7 @@ try:
         config = json.load(config_file)
         for item in config:
             paths.append(item['path'])
+
 except FileNotFoundError:
     input_mode = True
 except json.decoder.JSONDecodeError:
@@ -45,7 +46,8 @@ for path in paths:
         print('No process found for path: ' + path)
         print('Trying to start the process...')
         msg_handler.handle_message('Alert', 'The process {} is not found! '
-                                            'DO NOT QUIT THIS PROCESS!'
+                                            'DO NOT QUIT THIS PROCESS! '
+                                            'This incident is being logged and reported.'
                                    .format(path))
         detector.launch_program_based_on_path(path)
     else:
@@ -56,6 +58,7 @@ for path in paths:
             if Detector.detect_thread_list_contain_other_than_status_code(thread_list, 5):
                 print('Process is suspended, trying to resume it...')
                 msg_handler.handle_message('Alert', 'The process {} is being suspended! '
-                                                    'DO NOT SUSPEND THIS PROCESS!'
+                                                    'DO NOT SUSPEND THIS PROCESS! '
+                                                    'This incident is being logged and reported.'
                                            .format(process.name()))
                 detector.restart_program_based_on_path(path)
