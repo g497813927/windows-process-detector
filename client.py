@@ -44,6 +44,9 @@ for path in paths:
     if not len(list_of_fit_processes) > 0:
         print('No process found for path: ' + path)
         print('Trying to start the process...')
+        msg_handler.handle_message('Alert', 'The process {} is not found! '
+                                            'DO NOT QUIT THIS PROCESS!'
+                                   .format(path))
         detector.launch_program_based_on_path(path)
     else:
         print('Process found for path: ' + path)
