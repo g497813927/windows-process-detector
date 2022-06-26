@@ -1,5 +1,15 @@
 import json
 from detector import Detector
+import msg_handler
+
+"""
+Author:     Jiacheng Zhao
+Email:      admin@techzjc.com
+Version:    0.1.1
+Update Date:       2022-06-27
+Description:
+    This file is the runner for this project.
+"""
 
 # Try reading the config path json file, if it fails, ask for the path
 input_mode = False
@@ -42,4 +52,7 @@ for path in paths:
             thread_list = detector.detect_thread_list_based_on_process_obj(process)
             if Detector.detect_thread_list_contain_other_than_status_code(thread_list, 5):
                 print('Process is suspended, trying to resume it...')
+                msg_handler.handle_message('Alert', 'The process {} is being suspended! '
+                                                    'DO NOT SUSPEND THIS PROCESS!'
+                                           .format(process.name()))
                 detector.restart_program_based_on_path(path)
